@@ -8,7 +8,8 @@ load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents(messages=True, message_content=True)
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
@@ -16,14 +17,14 @@ async def on_ready():
 
 @bot.command(name='pin', help='pin <message link>')
 async def pin_cmd(ctx, message_link: str):
-  # server_id = int(link[4]); channel_id = int(link[6]); msg_id = int(link[5])
-  message_id = int(message_link.split('/')[5])
+  # server_id = int(link[4]); channel_id = int(link[5]); msg_id = int(link[6])
+  message_id = int(message_link.split('/')[6])
   message = await ctx.fetch_message(message_id)
   await message.pin()
 
 @bot.command(name='unpin', help='unpin <message link>')
 async def unpin_cmd(ctx, message_link: str):
-  message_id = int(message_link.split('/')[5])
+  message_id = int(message_link.split('/')[6])
   message = await ctx.fetch_message(message_id)
   await message.unpin()
 
