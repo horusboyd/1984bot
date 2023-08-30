@@ -15,14 +15,16 @@ async def on_ready():
 	print(f'{bot.user.name} has connected to Discord!')
 
 @bot.command(name='pin', help='pin <message link>')
-async def pin_cmd(ctx, message_id: int):
+async def pin_cmd(ctx, message_link: str):
+  # server_id = int(link[4]); channel_id = int(link[6]); msg_id = int(link[5])
+  message_id = int(message_link.split('/')[5])
   message = await ctx.fetch_message(message_id)
   await message.pin()
 
 @bot.command(name='unpin', help='unpin <message link>')
-async def pin_cmd(ctx, message_id: int):
+async def unpin_cmd(ctx, message_link: str):
+  message_id = int(message_link.split('/')[5])
   message = await ctx.fetch_message(message_id)
   await message.unpin()
 
 bot.run(token)
-
